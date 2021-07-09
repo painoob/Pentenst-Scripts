@@ -18,9 +18,10 @@ if [[ "$1" == "" ]] || [[ "$2" == "" ]]
 then
     echo -e "${LGreen}"
     echo "PaiNoob Scan Metadata 1.0"
-    echo "Usage: $0 <TARGET> <FILETYPE> <OPTIONS = -o>"
+    echo "Usage: $0 <TARGET> <FILETYPE> <OPTIONS>"
     echo ""
-    echo "-o: Save output to 'metadata.txt'. (Optional - disabled by default)"
+    echo "OPTIONS:"
+    echo "          -o: Save output to 'metadata.txt'. (Optional - disabled by default)"
     echo ""
     echo -e "Ex1.: $0 yoursite.com pdf"
     echo -e "Ex2.: $0 yoursite.com pdf -o ${NoColor}"
@@ -39,7 +40,7 @@ else
     echo "" | $tee_cmd
     echo "Scanning '$1' for '*.$2' filetype ..." | $tee_cmd
     idx=0
-    cmd=$(lynx --dump "https://google.com/search?q=site:$1+ext:pdf" | grep "\.$2" | cut -d "=" -f2 | sed 's/...$//');
+    cmd=$(lynx --dump "https://google.com/search?q=site:'$1'+ext:$2" | grep "\.$2" | cut -d "=" -f2 | sed 's/...$//');
     if [[ "$cmd" != "" ]]
     then
     for url in $cmd;
